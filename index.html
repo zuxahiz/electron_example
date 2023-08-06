@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Electron UI Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Electron UI Example</h1>
+  <p>This is a simple Electron UI program.</p>
+  <button id="clickMeButton">Click Me</button>
+  <p id="message"></p>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    // Get the button and message elements
+    const clickMeButton = document.getElementById('clickMeButton');
+    const messageElement = document.getElementById('message');
+
+    // When the button is clicked, send a message to the main process
+    clickMeButton.addEventListener('click', () => {
+      ipcRenderer.send('button-clicked');
+    });
+
+    // Listen for messages from the main process
+    ipcRenderer.on('message-from-main', (event, message) => {
+      messageElement.textContent = message;
+    });
+  </script>
+</body>
+</html>
